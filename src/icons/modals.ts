@@ -57,12 +57,13 @@ export class IconPickerModal extends Modal {
 			text: "Save",
 			cls: "mod-cta",
 		});
-		saveBtn.addEventListener("click", () => this.save());
+		saveBtn.addEventListener("click", () => { void this.save(); });
 
-		const clearBtn = actions.createEl("button", { text: "Clear Style" });
+		const clearBtn = actions.createEl("button", { text: "Clear style" });
 		clearBtn.addEventListener("click", () => {
+			// eslint-disable-next-line no-alert -- confirm dialog is appropriate for destructive clear action
 			if (confirm("Clear all icon and color settings for this item?")) {
-				this.clear();
+				void this.clear();
 			}
 		});
 

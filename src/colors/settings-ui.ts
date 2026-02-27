@@ -1,6 +1,7 @@
 import { Notice, Setting } from "obsidian";
 import type NoteIconsPlugin from "../main";
-import { isHexColor } from "../helpers";
+// isHexColor available in helpers if needed
+
 import type { ColorMap } from "../settings";
 
 interface RenderColorsTabArgs {
@@ -29,18 +30,18 @@ export function renderColorsTab({
 		type: "text",
 		placeholder: "Color name",
 		cls: "sf-color-name-input",
-	}) as HTMLInputElement;
+	});
 	const colorValueInput = addColorRow.createEl("input", {
 		type: "color",
 		value: "#ff6188",
 		cls: "sf-color-value-input",
-	}) as HTMLInputElement;
+	});
 	const colorPreview = addColorRow.createDiv("sf-color-preview");
 	const colorValueText = addColorRow.createEl("input", {
 		type: "text",
 		placeholder: "#hex, #hexaa, rgb/rgba",
 		cls: "sf-color-text-input-small",
-	}) as HTMLInputElement;
+	});
 	const opacityWrap = addColorRow.createDiv("sf-color-opacity");
 	opacityWrap.createEl("span", {
 		text: "Opacity",
@@ -54,17 +55,17 @@ export function renderColorsTab({
 			max: "100",
 			value: "100",
 		},
-	}) as HTMLInputElement;
+	});
 	const opacityValue = opacityWrap.createEl("span", {
 		text: "100%",
 		cls: "sf-color-opacity-value",
 	});
 	const addColorBtn = addColorRow.createEl("button", {
-		text: "+ Add Color",
+		text: "+ add color",
 	});
 
 	const colorStorage: ColorMap = plugin.settings.colors;
-	addColorBtn.addEventListener("click", async () => {
+	addColorBtn.addEventListener("click", () => {
 		const name = colorNameInput.value
 			.trim()
 			.toLowerCase()
@@ -80,8 +81,9 @@ export function renderColorsTab({
 		const colorValue =
 			colorValueText.value.trim() || colorValueInput.value;
 		colorStorage[name] = colorValue;
-		await plugin.saveSettings();
-		renderColorsTab({ plugin, contentEl });
+		void plugin.saveSettings().then(() => {
+			renderColorsTab({ plugin, contentEl });
+		});
 	});
 
 	const updatePreview = (value: string) => {
@@ -142,23 +144,25 @@ export function renderColorsTab({
 		const input = item.createEl("input", {
 			type: "text",
 			value: color,
-		}) as HTMLInputElement;
-		input.addEventListener("change", async (event) => {
+		});
+		input.addEventListener("change", (event) => {
 			const target = event.target as HTMLInputElement;
 			colorStorage[name] = target.value;
 			swatch.style.backgroundColor = target.value;
-			await plugin.saveSettings();
-			plugin.updateCSS();
+			void plugin.saveSettings().then(() => {
+				plugin.updateCSS();
+			});
 		});
 
 		const removeBtn = item.createEl("button", {
 			text: "\u00d7",
 			cls: "sf-remove-btn",
 		});
-		removeBtn.addEventListener("click", async () => {
+		removeBtn.addEventListener("click", () => {
 			delete colorStorage[name];
-			await plugin.saveSettings();
-			renderColorsTab({ plugin, contentEl });
+			void plugin.saveSettings().then(() => {
+				renderColorsTab({ plugin, contentEl });
+			});
 		});
 	});
 }

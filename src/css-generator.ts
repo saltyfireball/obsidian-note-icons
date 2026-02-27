@@ -6,13 +6,13 @@ export interface CSSGeneratorHelpers {
 	escapeAttributeValue: (value?: string) => string;
 }
 
-type CSSStyle = Record<string, any>;
-type CSSPattern = Record<string, any>;
+type CSSStyle = Record<string, unknown>;
+type CSSPattern = Record<string, unknown>;
 type CSSGeneratorSettings = Omit<
 	NoteIconsSettings,
 	"icons" | "filePatterns" | "folderPatterns" | "fileStyles" | "folderStyles"
 > & {
-	icons: Array<Record<string, any>>;
+	icons: Array<Record<string, unknown>>;
 	filePatterns: CSSPattern[];
 	folderPatterns: CSSPattern[];
 	fileStyles: Record<string, CSSStyle>;
@@ -25,9 +25,9 @@ export class CSSGenerator {
 		private helpers: CSSGeneratorHelpers,
 	) {}
 
-	private getIcons(): Array<Record<string, any>> {
+	private getIcons(): Array<Record<string, unknown>> {
 		if (typeof window !== "undefined" && window.SFIconManager) {
-			return window.SFIconManager.getIcons() as Array<Record<string, any>>;
+			return window.SFIconManager.getIcons() as Array<Record<string, unknown>>;
 		}
 		return this.settings.icons;
 	}
@@ -68,7 +68,7 @@ export class CSSGenerator {
 		if (typeof window === "undefined" || !window.SFIconManager) {
 			lines.push(":root {");
 			for (const icon of this.settings.icons) {
-				lines.push(`  --sf-icon-${icon.id}: ${icon.dataUrl};`);
+				lines.push(`  --sf-icon-${String(icon.id)}: ${String(icon.dataUrl)};`);
 			}
 			lines.push("}");
 			lines.push("");
@@ -93,12 +93,12 @@ export class CSSGenerator {
 `);
 
 		for (let i = 0; i < (this.settings.filePatterns || []).length; i++) {
-			const pattern = this.settings.filePatterns[i]!;
+			const pattern = this.settings.filePatterns[i];
 			lines.push(this.generateFilePatternCSS(i, pattern));
 		}
 
 		for (let i = 0; i < (this.settings.folderPatterns || []).length; i++) {
-			const pattern = this.settings.folderPatterns[i]!;
+			const pattern = this.settings.folderPatterns[i];
 			lines.push(this.generateFolderPatternCSS(i, pattern));
 		}
 
@@ -116,6 +116,7 @@ export class CSSGenerator {
 	generateFileCSS(path: string, style: CSSStyle): string {
 		const lines = [];
 		const escapedPath = path.replace(/\\/g, "\\\\").replace(/"/g, '\\"');
+		const iconId = (style.icon as string) || "";
 		const icon = this.getIcons().find((i) => i.id === style.icon);
 
 		if (style.icon && icon) {
@@ -135,7 +136,7 @@ div.nav-file-title[data-path="${escapedPath}"] .nav-file-title-content::before {
   -webkit-mask-image: none !important;
   mask-image: none !important;
   background-color: transparent !important;
-  background-image: var(--sf-icon-${style.icon});
+  background-image: var(--sf-icon-${iconId});
   background-size: ${bgSize} !important;
   background-repeat: no-repeat;
   background-position: center;
@@ -160,8 +161,8 @@ div.nav-file-title[data-path="${escapedPath}"] .nav-file-title-content::before {
   min-width: 18px;
   margin-right: 6px;
   vertical-align: middle;
-  -webkit-mask-image: var(--sf-icon-${style.icon});
-  mask-image: var(--sf-icon-${style.icon});
+  -webkit-mask-image: var(--sf-icon-${iconId});
+  mask-image: var(--sf-icon-${iconId});
   -webkit-mask-size: ${bgSize} !important;
   mask-size: ${bgSize} !important;
   -webkit-mask-repeat: no-repeat;
@@ -200,7 +201,7 @@ div.nav-file-title[data-path="${escapedPath}"] .nav-file-title-content {
   -webkit-mask-image: none !important;
   mask-image: none !important;
   background-color: transparent !important;
-  background-image: var(--sf-icon-${style.icon});
+  background-image: var(--sf-icon-${iconId});
   background-size: ${bgSize} !important;
   background-repeat: no-repeat;
   background-position: center;
@@ -224,8 +225,8 @@ div.nav-file-title[data-path="${escapedPath}"] .nav-file-title-content {
   height: 1.25em;
   margin-right: 10px;
   vertical-align: middle;
-  -webkit-mask-image: var(--sf-icon-${style.icon});
-  mask-image: var(--sf-icon-${style.icon});
+  -webkit-mask-image: var(--sf-icon-${iconId});
+  mask-image: var(--sf-icon-${iconId});
   -webkit-mask-size: ${bgSize} !important;
   mask-size: ${bgSize} !important;
   -webkit-mask-repeat: no-repeat;
@@ -252,6 +253,8 @@ div.nav-file-title[data-path="${escapedPath}"] .nav-file-title-content {
 	generateFolderCSS(path: string, style: CSSStyle): string {
 		const lines = [];
 		const escapedPath = path.replace(/\\/g, "\\\\").replace(/"/g, '\\"');
+		const iconClosedId = (style.iconClosed as string) || "";
+		const iconOpenId = (style.iconOpen as string) || "";
 		const iconClosed = this.getIcons().find(
 			(i) => i.id === style.iconClosed,
 		);
@@ -269,7 +272,7 @@ div.nav-file-title[data-path="${escapedPath}"] .nav-file-title-content {
   -webkit-mask-image: none !important;
   mask-image: none !important;
   background-color: transparent !important;
-  background-image: var(--sf-icon-${style.iconClosed});
+  background-image: var(--sf-icon-${iconClosedId});
   background-size: ${bgSize} !important;
   ${
 		iconClosed.borderRadius
@@ -283,8 +286,8 @@ div.nav-file-title[data-path="${escapedPath}"] .nav-file-title-content {
 				lines.push(`
 /* Folder closed: ${path} */
 .nav-folder.is-collapsed > div.nav-folder-title[data-path="${escapedPath}"] .nav-folder-title-content::before {
-  -webkit-mask-image: var(--sf-icon-${style.iconClosed});
-  mask-image: var(--sf-icon-${style.iconClosed});
+  -webkit-mask-image: var(--sf-icon-${iconClosedId});
+  mask-image: var(--sf-icon-${iconClosedId});
   -webkit-mask-size: ${bgSize} !important;
   mask-size: ${bgSize} !important;
   -webkit-mask-repeat: no-repeat;
@@ -309,7 +312,7 @@ div.nav-file-title[data-path="${escapedPath}"] .nav-file-title-content {
   -webkit-mask-image: none !important;
   mask-image: none !important;
   background-color: transparent !important;
-  background-image: var(--sf-icon-${style.iconOpen});
+  background-image: var(--sf-icon-${iconOpenId});
   background-size: ${bgSize} !important;
   ${
 		iconOpen.borderRadius
@@ -323,8 +326,8 @@ div.nav-file-title[data-path="${escapedPath}"] .nav-file-title-content {
 				lines.push(`
 /* Folder open: ${path} */
 .nav-folder:not(.is-collapsed) > div.nav-folder-title[data-path="${escapedPath}"] .nav-folder-title-content::before {
-  -webkit-mask-image: var(--sf-icon-${style.iconOpen});
-  mask-image: var(--sf-icon-${style.iconOpen});
+  -webkit-mask-image: var(--sf-icon-${iconOpenId});
+  mask-image: var(--sf-icon-${iconOpenId});
   -webkit-mask-size: ${bgSize} !important;
   mask-size: ${bgSize} !important;
   -webkit-mask-repeat: no-repeat;
@@ -351,6 +354,7 @@ div.nav-folder-title[data-path="${escapedPath}"] .nav-folder-title-content {
 	generateFilePatternCSS(index: number, pattern: CSSPattern): string {
 		const lines = [];
 		const className = `sf-pattern-file-${index}`;
+		const patternIconId = (pattern.icon as string) || "";
 		const icon = this.getIcons().find((i) => i.id === pattern.icon);
 
 		if (pattern.icon && icon) {
@@ -358,7 +362,7 @@ div.nav-folder-title[data-path="${escapedPath}"] .nav-folder-title-content {
 
 			if (icon.isColored) {
 				lines.push(`
-/* File Pattern: ${pattern.pattern} */
+/* File Pattern: ${String(pattern.pattern)} */
 .${className} .nav-file-title-content::before {
   content: "";
   display: inline-flex;
@@ -370,7 +374,7 @@ div.nav-folder-title[data-path="${escapedPath}"] .nav-folder-title-content {
   -webkit-mask-image: none !important;
   mask-image: none !important;
   background-color: transparent !important;
-  background-image: var(--sf-icon-${pattern.icon});
+  background-image: var(--sf-icon-${patternIconId});
   background-size: ${bgSize} !important;
   background-repeat: no-repeat;
   background-position: center;
@@ -386,7 +390,7 @@ div.nav-folder-title[data-path="${escapedPath}"] .nav-folder-title-content {
 				const color =
 					sanitizeCssValue(pattern.iconColor) || "var(--text-normal)";
 				lines.push(`
-/* File Pattern: ${pattern.pattern} */
+/* File Pattern: ${String(pattern.pattern)} */
 .${className} .nav-file-title-content::before {
   content: "";
   display: inline-flex;
@@ -395,8 +399,8 @@ div.nav-folder-title[data-path="${escapedPath}"] .nav-folder-title-content {
   min-width: 18px;
   margin-right: 6px;
   vertical-align: middle;
-  -webkit-mask-image: var(--sf-icon-${pattern.icon});
-  mask-image: var(--sf-icon-${pattern.icon});
+  -webkit-mask-image: var(--sf-icon-${patternIconId});
+  mask-image: var(--sf-icon-${patternIconId});
   -webkit-mask-size: ${bgSize} !important;
   mask-size: ${bgSize} !important;
   -webkit-mask-repeat: no-repeat;
@@ -432,7 +436,7 @@ div.nav-folder-title[data-path="${escapedPath}"] .nav-folder-title-content {
   -webkit-mask-image: none !important;
   mask-image: none !important;
   background-color: transparent !important;
-  background-image: var(--sf-icon-${pattern.icon});
+  background-image: var(--sf-icon-${patternIconId});
   background-size: ${bgSize} !important;
   background-repeat: no-repeat;
   background-position: center;
@@ -455,8 +459,8 @@ div.nav-folder-title[data-path="${escapedPath}"] .nav-folder-title-content {
   height: 1.25em;
   margin-right: 10px;
   vertical-align: middle;
-  -webkit-mask-image: var(--sf-icon-${pattern.icon});
-  mask-image: var(--sf-icon-${pattern.icon});
+  -webkit-mask-image: var(--sf-icon-${patternIconId});
+  mask-image: var(--sf-icon-${patternIconId});
   -webkit-mask-size: ${bgSize} !important;
   mask-size: ${bgSize} !important;
   -webkit-mask-repeat: no-repeat;
@@ -483,6 +487,8 @@ div.nav-folder-title[data-path="${escapedPath}"] .nav-folder-title-content {
 	generateFolderPatternCSS(index: number, pattern: CSSPattern): string {
 		const lines = [];
 		const className = `sf-pattern-folder-${index}`;
+		const patternIconClosedId = (pattern.iconClosed as string) || "";
+		const patternIconOpenId = (pattern.iconOpen as string) || "";
 		const iconClosed = this.getIcons().find(
 			(i) => i.id === pattern.iconClosed,
 		);
@@ -502,7 +508,7 @@ div.nav-folder-title[data-path="${escapedPath}"] .nav-folder-title-content {
 
 			if (iconClosed.isColored) {
 				lines.push(`
-/* Folder Pattern closed: ${pattern.pattern} */
+/* Folder Pattern closed: ${String(pattern.pattern)} */
 .nav-folder.${className}.is-collapsed > .nav-folder-title .nav-folder-title-content::before {
   content: "" !important;
   display: inline-flex !important;
@@ -514,7 +520,7 @@ div.nav-folder-title[data-path="${escapedPath}"] .nav-folder-title-content {
   -webkit-mask-image: none !important;
   mask-image: none !important;
   background-color: transparent !important;
-  background-image: var(--sf-icon-${pattern.iconClosed}) !important;
+  background-image: var(--sf-icon-${patternIconClosedId}) !important;
   background-size: ${bgSize} !important;
   background-repeat: no-repeat !important;
   background-position: center !important;
@@ -524,7 +530,7 @@ div.nav-folder-title[data-path="${escapedPath}"] .nav-folder-title-content {
 `);
 			} else {
 				lines.push(`
-/* Folder Pattern closed: ${pattern.pattern} */
+/* Folder Pattern closed: ${String(pattern.pattern)} */
 .nav-folder.${className}.is-collapsed > .nav-folder-title .nav-folder-title-content::before {
   content: "" !important;
   display: inline-flex !important;
@@ -533,8 +539,8 @@ div.nav-folder-title[data-path="${escapedPath}"] .nav-folder-title-content {
   min-width: 18px !important;
   margin-right: 6px !important;
   flex-shrink: 0 !important;
-  -webkit-mask-image: var(--sf-icon-${pattern.iconClosed}) !important;
-  mask-image: var(--sf-icon-${pattern.iconClosed}) !important;
+  -webkit-mask-image: var(--sf-icon-${patternIconClosedId}) !important;
+  mask-image: var(--sf-icon-${patternIconClosedId}) !important;
   -webkit-mask-size: ${bgSize} !important;
   mask-size: ${bgSize} !important;
   -webkit-mask-repeat: no-repeat !important;
@@ -562,7 +568,7 @@ div.nav-folder-title[data-path="${escapedPath}"] .nav-folder-title-content {
 
 			if (iconOpen.isColored) {
 				lines.push(`
-/* Folder Pattern open: ${pattern.pattern} */
+/* Folder Pattern open: ${String(pattern.pattern)} */
 .nav-folder.${className}:not(.is-collapsed) > .nav-folder-title .nav-folder-title-content::before {
   content: "" !important;
   display: inline-flex !important;
@@ -574,7 +580,7 @@ div.nav-folder-title[data-path="${escapedPath}"] .nav-folder-title-content {
   -webkit-mask-image: none !important;
   mask-image: none !important;
   background-color: transparent !important;
-  background-image: var(--sf-icon-${pattern.iconOpen}) !important;
+  background-image: var(--sf-icon-${patternIconOpenId}) !important;
   background-size: ${bgSize} !important;
   background-repeat: no-repeat !important;
   background-position: center !important;
@@ -584,7 +590,7 @@ div.nav-folder-title[data-path="${escapedPath}"] .nav-folder-title-content {
 `);
 			} else {
 				lines.push(`
-/* Folder Pattern open: ${pattern.pattern} */
+/* Folder Pattern open: ${String(pattern.pattern)} */
 .nav-folder.${className}:not(.is-collapsed) > .nav-folder-title .nav-folder-title-content::before {
   content: "" !important;
   display: inline-flex !important;
@@ -593,8 +599,8 @@ div.nav-folder-title[data-path="${escapedPath}"] .nav-folder-title-content {
   min-width: 18px !important;
   margin-right: 6px !important;
   flex-shrink: 0 !important;
-  -webkit-mask-image: var(--sf-icon-${pattern.iconOpen}) !important;
-  mask-image: var(--sf-icon-${pattern.iconOpen}) !important;
+  -webkit-mask-image: var(--sf-icon-${patternIconOpenId}) !important;
+  mask-image: var(--sf-icon-${patternIconOpenId}) !important;
   -webkit-mask-size: ${bgSize} !important;
   mask-size: ${bgSize} !important;
   -webkit-mask-repeat: no-repeat !important;

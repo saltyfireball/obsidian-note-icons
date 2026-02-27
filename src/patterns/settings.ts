@@ -139,7 +139,7 @@ export function renderFilesPatternsTab(context: SettingsTabContext): void {
 	});
 
 	const addBtn = contentEl.createEl("button", {
-		text: "+ Add File Pattern",
+		text: "+ add file pattern",
 	});
 	addBtn.addEventListener("click", () => {
 		new PatternModal(app, plugin, "file").open();
@@ -150,7 +150,7 @@ export function renderFilesPatternsTab(context: SettingsTabContext): void {
 		type: "text",
 		placeholder: "Filter file patterns by name or regex...",
 		cls: "sf-icon-search",
-	}) as HTMLInputElement;
+	});
 	fileSearchInput.value = fileFilterValue;
 	fileSearchInput.setAttr(
 		"aria-label",
@@ -202,7 +202,7 @@ export function renderFoldersPatternsTab(context: SettingsTabContext): void {
 	});
 
 	const addBtn = contentEl.createEl("button", {
-		text: "+ Add Folder Pattern",
+		text: "+ add folder pattern",
 	});
 	addBtn.addEventListener("click", () => {
 		new PatternModal(app, plugin, "folder").open();
@@ -213,7 +213,7 @@ export function renderFoldersPatternsTab(context: SettingsTabContext): void {
 		type: "text",
 		placeholder: "Filter folder patterns by name or regex...",
 		cls: "sf-icon-search",
-	}) as HTMLInputElement;
+	});
 	folderSearchInput.value = folderFilterValue;
 	folderSearchInput.setAttr(
 		"aria-label",
@@ -385,9 +385,9 @@ export function renderPatternList(
 		moveUpBtn.type = "button";
 		moveUpBtn.disabled = i === 0;
 		moveUpBtn.setAttr("aria-label", "Move pattern up");
-		moveUpBtn.addEventListener("click", async () => {
+		moveUpBtn.addEventListener("click", () => {
 			if (i === 0) return;
-			await handleReorder(i, i - 1);
+			void handleReorder(i, i - 1);
 		});
 
 		const moveDownBtn = actions.createEl("button", {
@@ -397,9 +397,9 @@ export function renderPatternList(
 		moveDownBtn.type = "button";
 		moveDownBtn.disabled = i === totalPatterns - 1;
 		moveDownBtn.setAttr("aria-label", "Move pattern down");
-		moveDownBtn.addEventListener("click", async () => {
+		moveDownBtn.addEventListener("click", () => {
 			if (i === totalPatterns - 1) return;
-			await handleReorder(i, i + 1);
+			void handleReorder(i, i + 1);
 		});
 
 		const editBtn = actions.createEl("button", { text: "Edit" });
@@ -411,10 +411,10 @@ export function renderPatternList(
 			text: "\u00d7",
 			cls: "sf-remove-btn",
 		});
-		removeBtn.addEventListener("click", async () => {
+		removeBtn.addEventListener("click", () => {
 			const patternsArray = getPatternArray(plugin, type);
 			patternsArray.splice(i, 1);
-			await persistPatternsAndRefresh(context);
+			void persistPatternsAndRefresh(context);
 		});
 
 		setupDragEvents(context, item, i, type, options);
@@ -442,16 +442,16 @@ function renderPatternIconPreview(
 	const preview = container.createDiv("sf-icon-item-preview");
 	if (iconDef) {
 		if (iconDef.isColored) {
-			preview.style.backgroundImage = iconDef.dataUrl || "";
-			preview.style.backgroundSize =
-				iconDef.backgroundSize || "contain";
+			preview.setCssStyles({
+				backgroundImage: iconDef.dataUrl || "",
+				backgroundSize: iconDef.backgroundSize || "contain",
+			});
 		} else {
-			preview.style.webkitMaskImage = iconDef.dataUrl || "";
-			preview.style.maskImage = iconDef.dataUrl || "";
-			preview.style.backgroundColor = color || "var(--text-normal)";
-			preview.style.webkitMaskSize =
-				iconDef.backgroundSize || "contain";
-			preview.style.maskSize = iconDef.backgroundSize || "contain";
+			preview.setCssStyles({
+				maskImage: iconDef.dataUrl || "",
+				maskSize: iconDef.backgroundSize || "contain",
+				backgroundColor: color || "var(--text-normal)",
+			});
 		}
 	}
 }
@@ -497,7 +497,7 @@ export function setupDragEvents(
 		item.removeClass("sf-drag-over");
 	});
 
-	item.addEventListener("drop", async (event: DragEvent) => {
+	item.addEventListener("drop", (event: DragEvent) => {
 		event.preventDefault();
 		item.removeClass("sf-drag-over");
 		const dataTransfer = event.dataTransfer;
@@ -506,6 +506,6 @@ export function setupDragEvents(
 		const toIndex = index;
 		if (fromIndex === toIndex) return;
 
-		await handleReorder(fromIndex, toIndex);
+		void handleReorder(fromIndex, toIndex);
 	});
 }

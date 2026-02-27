@@ -14,7 +14,7 @@ export function registerIcons(plugin: NoteIconsPlugin): void {
 			const isFolder = file instanceof TFolder;
 
 			menu.addItem((item) => {
-				item.setTitle("Set Icon & Colors")
+				item.setTitle("Set icon & colors")
 					.setIcon("palette")
 					.onClick(() => {
 						new IconPickerModal(
@@ -31,7 +31,7 @@ export function registerIcons(plugin: NoteIconsPlugin): void {
 	// Register command for current file
 	plugin.addCommand({
 		id: "set-icon-current-file",
-		name: "Set Icon & Colors for Current File",
+		name: "Set icon & colors for current file",
 		checkCallback: (checking) => {
 			const file = plugin.app.workspace.getActiveFile();
 			if (file) {

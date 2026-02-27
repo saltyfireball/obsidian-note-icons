@@ -26,7 +26,7 @@ export function renderFilesSpecificTab(context: SettingsTabContext) {
 			cls: "sf-empty-message",
 		});
 	} else {
-		for (const [path, style] of fileStyles) {
+		for (const [path] of fileStyles) {
 			const item = fileStylesList.createDiv("sf-style-item");
 
 			const header = item.createDiv("sf-style-header");
@@ -37,11 +37,12 @@ export function renderFilesSpecificTab(context: SettingsTabContext) {
 				text: "\u00d7",
 				cls: "sf-remove-btn",
 			});
-			removeBtn.addEventListener("click", async () => {
+			removeBtn.addEventListener("click", () => {
 				delete plugin.settings.fileStyles[path];
-				await plugin.saveSettings();
-				plugin.updateCSS();
-				rerender();
+				void plugin.saveSettings().then(() => {
+					plugin.updateCSS();
+					rerender();
+				});
 			});
 		}
 	}
@@ -64,7 +65,7 @@ export function renderFoldersSpecificTab(context: SettingsTabContext) {
 			cls: "sf-empty-message",
 		});
 	} else {
-		for (const [path, style] of folderStyles) {
+		for (const [path] of folderStyles) {
 			const item = folderStylesList.createDiv("sf-style-item");
 
 			const header = item.createDiv("sf-style-header");
@@ -75,11 +76,12 @@ export function renderFoldersSpecificTab(context: SettingsTabContext) {
 				text: "\u00d7",
 				cls: "sf-remove-btn",
 			});
-			removeBtn.addEventListener("click", async () => {
+			removeBtn.addEventListener("click", () => {
 				delete plugin.settings.folderStyles[path];
-				await plugin.saveSettings();
-				plugin.updateCSS();
-				rerender();
+				void plugin.saveSettings().then(() => {
+					plugin.updateCSS();
+					rerender();
+				});
 			});
 		}
 	}
