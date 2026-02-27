@@ -1,0 +1,918 @@
+/* ============================================================================
+   Note Icons - Plugin Styles
+   ============================================================================ */
+
+/* Settings Tab */
+.sf-settings h1 {
+	margin-bottom: 1em;
+}
+
+.sf-settings h2 {
+	margin-top: 2em;
+	margin-bottom: 0.5em;
+	padding-bottom: 0.5em;
+	border-bottom: 1px solid var(--background-modifier-border);
+}
+
+.sf-empty-message {
+	color: var(--text-muted);
+	font-style: italic;
+}
+
+/* Icon List */
+.sf-icon-list {
+	margin-top: 1em;
+	flex: 1;
+	min-height: 0;
+	overflow-y: auto;
+	border: 1px solid var(--background-modifier-border);
+	border-radius: 6px;
+	padding: 4px;
+}
+
+.sf-icon-item {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	padding: 8px 12px;
+	margin: 4px 0;
+	background: var(--background-secondary);
+	border-radius: 6px;
+}
+
+.sf-icon-item-preview {
+	width: 32px;
+	height: 32px;
+	flex-shrink: 0;
+	background-size: contain;
+	background-repeat: no-repeat;
+	background-position: center;
+	transform-origin: center;
+	-webkit-mask-size: contain;
+	mask-size: contain;
+	-webkit-mask-repeat: no-repeat;
+	mask-repeat: no-repeat;
+	-webkit-mask-position: center;
+	mask-position: center;
+}
+
+/* Styles List */
+.sf-styles-list {
+	margin-top: 1em;
+	flex: 1;
+	min-height: 0;
+	min-width: 0;
+	overflow-y: auto;
+	overflow-x: hidden;
+	border: 1px solid var(--background-modifier-border);
+	border-radius: 6px;
+	padding: 4px;
+}
+
+.sf-style-item {
+	padding: 10px 12px;
+	margin: 4px 0;
+	background: var(--background-secondary);
+	border-radius: 6px;
+}
+
+.sf-style-header {
+	display: flex;
+	align-items: flex-start;
+	gap: 8px;
+}
+
+.sf-style-header > code {
+	flex: 1;
+	font-size: 0.9em;
+	color: var(--text-normal);
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	min-width: 0;
+}
+
+.sf-style-actions {
+	display: flex;
+	gap: 6px;
+	flex-shrink: 0;
+	margin-left: auto;
+	flex-wrap: wrap;
+}
+
+.sf-style-actions button,
+.sf-remove-btn {
+	height: 34px;
+	min-width: 32px;
+	padding: 0 12px;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 13px;
+	color: var(--text-muted);
+	background: var(--background-primary);
+	border: 1px solid var(--background-modifier-border);
+	cursor: pointer;
+	border-radius: 6px;
+	gap: 2px;
+}
+
+.sf-style-actions button:hover,
+.sf-remove-btn:hover {
+	color: var(--text-normal);
+	background: var(--background-modifier-hover);
+}
+
+.sf-remove-btn:hover {
+	color: var(--text-error);
+	border-color: var(--text-error);
+}
+
+.sf-move-btn {
+	width: 34px;
+	padding: 0;
+	font-size: 16px;
+	font-weight: 600;
+}
+
+.sf-move-btn:disabled {
+	opacity: 0.4;
+	cursor: default;
+}
+
+/* Colors List */
+.sf-colors-list {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+	gap: 8px;
+	margin-top: 1em;
+}
+
+.sf-color-item {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	padding: 8px;
+	background: var(--background-secondary);
+	border-radius: 6px;
+}
+
+.sf-color-swatch {
+	width: 24px;
+	height: 24px;
+	border-radius: 4px;
+	flex-shrink: 0;
+}
+
+.sf-color-item span {
+	flex: 1;
+	font-size: 0.9em;
+}
+
+.sf-color-item input {
+	width: 80px;
+	font-size: 0.85em;
+	font-family: var(--font-monospace);
+}
+
+/* ============================================================================
+   Icon Picker Modal
+   ============================================================================ */
+
+.sf-icon-picker-modal {
+	max-width: 600px;
+}
+
+.sf-icon-picker-modal .sf-target-path {
+	font-family: var(--font-monospace);
+	font-size: 0.9em;
+	color: var(--text-muted);
+	margin-bottom: 1.5em;
+	word-break: break-all;
+}
+
+.sf-section {
+	margin-bottom: 1.5em;
+}
+
+.sf-section h3 {
+	font-size: 1em;
+	margin-bottom: 0.75em;
+	color: var(--text-muted);
+}
+
+.sf-row {
+	margin-bottom: 1em;
+}
+
+.sf-row > label {
+	display: block;
+	font-size: 0.9em;
+	margin-bottom: 0.5em;
+	color: var(--text-normal);
+}
+
+/* Icon Grid */
+.sf-icon-grid {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px;
+}
+
+.sf-icon-option {
+	width: 40px;
+	height: 40px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background: var(--background-secondary);
+	border: 2px solid transparent;
+	border-radius: 6px;
+	cursor: pointer;
+	transition: all 0.15s ease;
+}
+
+.sf-icon-option:hover {
+	background: var(--background-modifier-hover);
+}
+
+.sf-icon-option.sf-selected {
+	border-color: var(--interactive-accent);
+	background: var(--background-modifier-hover);
+}
+
+.sf-icon-option.sf-icon-none {
+	font-size: 0.75em;
+	color: var(--text-muted);
+}
+
+.sf-icon-preview {
+	width: 24px;
+	height: 24px;
+	background-size: contain;
+	background-repeat: no-repeat;
+	background-position: center;
+	-webkit-mask-size: contain;
+	mask-size: contain;
+	-webkit-mask-repeat: no-repeat;
+	mask-repeat: no-repeat;
+	-webkit-mask-position: center;
+	mask-position: center;
+}
+
+/* Color Grid */
+.sf-color-grid {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 6px;
+}
+
+.sf-color-option {
+	width: 28px;
+	height: 28px;
+	border-radius: 50%;
+	border: 2px solid transparent;
+	cursor: pointer;
+	transition: all 0.15s ease;
+}
+
+.sf-color-option:hover {
+	transform: scale(1.1);
+}
+
+.sf-color-option.sf-selected {
+	border-color: var(--text-normal);
+	box-shadow: 0 0 0 2px var(--background-primary);
+}
+
+.sf-color-option.sf-color-none {
+	background: var(--background-secondary);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 16px;
+	color: var(--text-muted);
+}
+
+/* Modal Actions */
+.sf-modal-actions {
+	display: flex;
+	justify-content: flex-end;
+	gap: 8px;
+	margin-top: 1.5em;
+	padding-top: 1em;
+	border-top: 1px solid var(--background-modifier-border);
+}
+
+.sf-hint {
+	color: var(--text-muted);
+	font-size: 0.85em;
+	font-style: italic;
+}
+
+/* Form Rows */
+.sf-form-row {
+	margin-bottom: 1em;
+}
+
+.sf-form-row > label {
+	display: block;
+	font-size: 0.9em;
+	margin-bottom: 0.5em;
+	color: var(--text-normal);
+}
+
+.sf-form-row input[type="text"],
+.sf-form-row textarea {
+	width: 100%;
+	padding: 8px;
+	border-radius: 4px;
+	border: 1px solid var(--background-modifier-border);
+	background: var(--background-primary);
+	color: var(--text-normal);
+	font-family: var(--font-monospace);
+}
+
+/* ============================================================================
+   Drag and Drop for Pattern Reordering
+   ============================================================================ */
+
+.sf-draggable {
+	cursor: grab;
+	transition: all 0.15s ease;
+}
+
+.sf-draggable:active {
+	cursor: grabbing;
+}
+
+.sf-drag-handle {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 34px;
+	min-width: 34px;
+	height: 34px;
+	padding: 0 4px;
+	color: var(--text-faint);
+	font-size: 16px;
+	letter-spacing: -1px;
+	cursor: grab;
+	user-select: none;
+	border-radius: 6px;
+	transition:
+		background 0.15s ease,
+		color 0.15s ease;
+}
+
+.sf-drag-handle:hover {
+	color: var(--text-normal);
+	background: var(--background-modifier-hover);
+}
+
+.sf-dragging {
+	opacity: 0.5;
+	background: var(--background-modifier-active-hover) !important;
+}
+
+.sf-drag-over {
+	border-top: 2px solid var(--interactive-accent) !important;
+	margin-top: -2px;
+}
+
+/* Pattern Label */
+.sf-pattern-label {
+	flex: 1 1 auto;
+	display: flex;
+	flex-direction: column;
+	gap: 4px;
+	min-width: 0;
+	overflow: hidden;
+}
+
+.sf-pattern-label strong {
+	font-size: 0.95em;
+	color: var(--text-normal);
+	word-break: break-word;
+}
+
+.sf-pattern-label code {
+	font-size: 0.8em;
+	color: var(--text-muted);
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+/* Add Color Row */
+.sf-add-color-row {
+	display: flex;
+	gap: 8px;
+	align-items: center;
+	flex-wrap: wrap;
+	margin-bottom: 1em;
+}
+
+.sf-color-name-input {
+	flex: 1;
+	max-width: 150px;
+}
+
+.sf-color-value-input {
+	width: 40px;
+	height: 32px;
+	padding: 2px;
+	border: 1px solid var(--background-modifier-border);
+	border-radius: 4px;
+	cursor: pointer;
+}
+
+.sf-color-opacity {
+	display: flex;
+	align-items: center;
+	gap: 6px;
+	flex-wrap: wrap;
+}
+
+.sf-color-opacity-label {
+	font-size: 0.8em;
+	color: var(--text-muted);
+}
+
+.sf-color-opacity-input {
+	width: 120px;
+}
+
+.sf-color-opacity-value {
+	font-size: 0.8em;
+	color: var(--text-muted);
+	min-width: 40px;
+}
+
+.sf-color-text-input-small {
+	min-width: 160px;
+	padding: 6px 8px;
+	border-radius: 4px;
+	border: 1px solid var(--background-modifier-border);
+	background: var(--background-primary);
+	color: var(--text-normal);
+	font-family: var(--font-monospace);
+	font-size: 0.85em;
+}
+
+/* Icon Search */
+.sf-icon-search {
+	width: 100%;
+	margin-bottom: 1em;
+	padding: 8px;
+	border: 1px solid var(--background-modifier-border);
+	border-radius: 4px;
+	background: var(--background-primary);
+	color: var(--text-normal);
+}
+
+.sf-icon-search::placeholder {
+	color: var(--text-muted);
+}
+
+/* ============================================================================
+   Tabbed Settings Layout
+   ============================================================================ */
+
+body:not(.is-mobile) .sf-tabbed-settings {
+	padding: 0 !important;
+}
+
+.sf-settings-layout {
+	display: flex;
+	min-height: 500px;
+	border: 1px solid var(--background-modifier-border);
+	border-radius: 8px;
+	overflow: hidden;
+	position: relative;
+	height: 100%;
+}
+
+/* Navigation Sidebar */
+.sf-settings-nav {
+	width: 220px;
+	min-width: 220px;
+	background: var(--background-secondary);
+	border-right: 1px solid var(--background-modifier-border);
+	padding: 12px 0;
+	overflow-y: auto;
+	display: flex;
+	flex-direction: column;
+}
+
+.sf-nav-search-container {
+	padding: 0 12px 12px;
+	flex-shrink: 0;
+}
+
+.sf-nav-search {
+	width: 100%;
+	padding: 8px 12px;
+	border: 1px solid var(--background-modifier-border);
+	border-radius: 6px;
+	background: var(--background-primary);
+	color: var(--text-normal);
+	font-size: 0.9em;
+}
+
+.sf-nav-search:focus {
+	outline: none;
+	border-color: var(--interactive-accent);
+	box-shadow: 0 0 0 2px var(--interactive-accent-hover);
+}
+
+.sf-nav-search::placeholder {
+	color: var(--text-muted);
+}
+
+.sf-nav-items {
+	flex: 1;
+	overflow-y: auto;
+}
+
+.sf-nav-no-results {
+	padding: 16px;
+	color: var(--text-muted);
+	font-style: italic;
+	text-align: center;
+	font-size: 0.9em;
+}
+
+.sf-nav-search-match > .sf-nav-label {
+	color: var(--text-accent);
+}
+
+.sf-nav-item {
+	user-select: none;
+}
+
+.sf-nav-link {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	padding: 10px 16px;
+	cursor: pointer;
+	color: var(--text-normal);
+	transition: all 0.15s ease;
+	border-left: 3px solid transparent;
+}
+
+.sf-nav-link[data-depth="1"] {
+	padding-left: 28px;
+	font-size: 0.95em;
+}
+
+.sf-nav-link[data-depth="2"] {
+	padding-left: 44px;
+	font-size: 0.9em;
+}
+
+.sf-nav-link[data-depth="3"] {
+	padding-left: 60px;
+	font-size: 0.85em;
+}
+
+.sf-nav-link:hover {
+	background: var(--background-modifier-hover);
+}
+
+.sf-nav-link.sf-nav-active {
+	background: var(--background-primary);
+	border-left-color: var(--interactive-accent);
+	color: var(--text-accent);
+	font-weight: 500;
+}
+
+.sf-nav-icon {
+	font-size: 1.1em;
+	width: 20px;
+	text-align: center;
+}
+
+.sf-nav-label {
+	flex: 1;
+}
+
+.sf-nav-arrow {
+	font-size: 1.2em;
+	color: var(--text-muted);
+	transition: transform 0.2s ease;
+}
+
+.sf-nav-expanded > .sf-nav-link > .sf-nav-arrow {
+	transform: rotate(90deg);
+}
+
+.sf-nav-children {
+	display: none;
+	background: var(--background-primary-alt);
+	border-left: 2px solid var(--background-modifier-border);
+	margin-left: 12px;
+}
+
+.sf-nav-expanded > .sf-nav-children {
+	display: block;
+}
+
+.sf-nav-children .sf-nav-children {
+	background: var(--background-secondary-alt);
+	margin-left: 8px;
+}
+
+/* Content Area */
+.sf-settings-content {
+	flex: 1;
+	min-height: 0;
+	display: flex;
+	flex-direction: column;
+	padding: 24px;
+	background: var(--background-primary);
+	overflow-y: auto;
+}
+
+.sf-settings-content h2 {
+	margin-top: 0;
+	margin-bottom: 0.5em;
+	padding-bottom: 0.5em;
+	border-bottom: 1px solid var(--background-modifier-border);
+}
+
+.sf-settings-content h2:not(:first-child) {
+	margin-top: 2em;
+}
+
+/* Responsive adjustments for mobile */
+@media (max-width: 600px) {
+	.sf-settings-layout {
+		flex-direction: column;
+	}
+
+	.sf-settings-nav {
+		width: 100%;
+		min-width: 100%;
+		border-right: none;
+		border-bottom: 1px solid var(--background-modifier-border);
+		padding: 8px;
+		max-height: none;
+		overflow-x: auto;
+		overflow-y: visible;
+		position: relative;
+	}
+
+	.sf-settings-nav > .sf-nav-item {
+		display: inline-block;
+		margin-right: 4px;
+		margin-bottom: 4px;
+	}
+
+	.sf-settings-nav > .sf-nav-item > .sf-nav-link {
+		padding: 8px 12px;
+		border-radius: 20px;
+		border-left: none;
+		background: var(--background-primary);
+		white-space: nowrap;
+		font-size: 0.85em;
+	}
+
+	.sf-settings-nav > .sf-nav-item > .sf-nav-link.sf-nav-active,
+	.sf-settings-nav > .sf-nav-item.sf-nav-expanded > .sf-nav-link {
+		background: var(--interactive-accent);
+		color: var(--text-on-accent);
+	}
+
+	.sf-settings-nav > .sf-nav-item > .sf-nav-link:hover {
+		background: var(--background-modifier-hover);
+	}
+
+	.sf-settings-nav > .sf-nav-item > .sf-nav-link > .sf-nav-arrow {
+		display: none;
+	}
+
+	.sf-settings-nav .sf-nav-children {
+		position: absolute;
+		left: 0;
+		right: 0;
+		margin-left: 0;
+		border-left: none;
+		border-top: 1px solid var(--background-modifier-border);
+		background: var(--background-secondary);
+		z-index: 100;
+		padding: 8px;
+		box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+	}
+
+	.sf-settings-nav .sf-nav-children .sf-nav-item {
+		display: inline-block;
+		margin-right: 4px;
+		margin-bottom: 4px;
+	}
+
+	.sf-settings-nav .sf-nav-children .sf-nav-link {
+		padding: 6px 10px;
+		border-radius: 16px;
+		border-left: none;
+		background: var(--background-primary);
+		white-space: nowrap;
+		font-size: 0.8em;
+	}
+
+	.sf-settings-nav .sf-nav-children .sf-nav-link[data-depth="1"],
+	.sf-settings-nav .sf-nav-children .sf-nav-link[data-depth="2"],
+	.sf-settings-nav .sf-nav-children .sf-nav-link[data-depth="3"] {
+		padding-left: 10px;
+	}
+
+	.sf-settings-nav .sf-nav-children .sf-nav-children {
+		position: relative;
+		box-shadow: none;
+		border-top: none;
+		padding: 4px 0;
+		background: transparent;
+	}
+
+	.sf-settings-content {
+		padding: 16px;
+	}
+
+	.sf-settings-content h2 {
+		font-size: 1.1em;
+	}
+}
+
+@media (max-width: 400px) {
+	.sf-settings-nav > .sf-nav-item > .sf-nav-link {
+		padding: 6px 10px;
+		font-size: 0.8em;
+	}
+
+	.sf-nav-icon {
+		font-size: 1em;
+		width: 16px;
+	}
+}
+
+/* ============================================================================
+   Obsidian Mobile App Specific Styles
+   ============================================================================ */
+
+.is-mobile .sf-settings-layout {
+	display: block;
+	min-height: auto;
+	border: none;
+	border-radius: 0;
+	overflow: visible;
+	position: static;
+}
+
+.is-mobile .sf-settings-nav {
+	display: none;
+}
+
+.is-mobile .sf-settings-content {
+	padding: 0 16px 40px 16px;
+}
+
+.is-mobile .sf-settings-content h2 {
+	font-size: 1.15em;
+	margin-top: 12px;
+	margin-bottom: 8px;
+	padding-bottom: 8px;
+}
+
+.is-mobile .sf-settings-content h2:first-child {
+	margin-top: 4px;
+}
+
+.is-mobile .sf-settings-content > p.sf-hint {
+	margin-bottom: 12px;
+}
+
+.is-mobile .sf-icon-list,
+.is-mobile .sf-styles-list {
+	max-height: none;
+	border: none;
+	padding: 0;
+}
+
+.is-mobile .sf-icon-item,
+.is-mobile .sf-style-item {
+	padding: 12px;
+	gap: 8px;
+}
+
+.is-mobile .sf-pattern-label strong {
+	font-size: 0.9em;
+}
+
+.is-mobile .sf-pattern-label code {
+	font-size: 0.75em;
+}
+
+.is-mobile .sf-icon-item button,
+.is-mobile .sf-style-actions button {
+	padding: 6px 10px;
+	font-size: 0.85em;
+}
+
+/* ============================================================================
+   Mobile Navigation (Simple Dropdown)
+   ============================================================================ */
+
+.sf-mobile-nav {
+	padding: 12px;
+	margin-bottom: 16px;
+	background: var(--background-secondary);
+	border-radius: 8px;
+	position: relative;
+}
+
+.sf-mobile-nav-dropdown {
+	width: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 12px 16px;
+	background: var(--background-primary);
+	border: 1px solid var(--background-modifier-border);
+	border-radius: 8px;
+	color: var(--text-normal);
+	font-size: 1em;
+	font-weight: 500;
+	cursor: pointer;
+	-webkit-tap-highlight-color: transparent;
+}
+
+.sf-mobile-nav-dropdown:active {
+	background: var(--background-modifier-hover);
+}
+
+.sf-mobile-nav-dropdown.sf-open {
+	border-bottom-left-radius: 0;
+	border-bottom-right-radius: 0;
+	border-bottom-color: transparent;
+}
+
+.sf-mobile-nav-arrow {
+	font-size: 0.8em;
+	color: var(--text-muted);
+	transition: transform 0.2s ease;
+}
+
+.sf-mobile-nav-dropdown.sf-open .sf-mobile-nav-arrow {
+	transform: rotate(180deg);
+}
+
+.sf-mobile-nav-menu {
+	position: absolute;
+	left: 16px;
+	right: 16px;
+	top: 100%;
+	margin-top: -1px;
+	background: var(--background-primary);
+	border: 1px solid var(--background-modifier-border);
+	border-top: none;
+	border-radius: 0 0 8px 8px;
+	z-index: 100;
+	max-height: 60vh;
+	overflow-y: auto;
+	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.sf-mobile-nav-group {
+	padding: 8px 0;
+	border-bottom: 1px solid var(--background-modifier-border);
+}
+
+.sf-mobile-nav-group:last-child {
+	border-bottom: none;
+}
+
+.sf-mobile-nav-group-label {
+	padding: 4px 16px;
+	font-size: 0.75em;
+	font-weight: 600;
+	color: var(--text-muted);
+	text-transform: uppercase;
+	letter-spacing: 0.05em;
+}
+
+.sf-mobile-nav-item {
+	padding: 12px 16px;
+	color: var(--text-normal);
+	cursor: pointer;
+	-webkit-tap-highlight-color: transparent;
+}
+
+.sf-mobile-nav-item:active {
+	background: var(--background-modifier-hover);
+}
+
+.sf-mobile-nav-item.sf-active {
+	background: var(--interactive-accent);
+	color: var(--text-on-accent);
+}
