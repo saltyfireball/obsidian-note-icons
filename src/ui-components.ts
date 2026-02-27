@@ -66,11 +66,12 @@ export function renderIconPickerGrid({
 
 			const preview = btn.createDiv("sf-icon-preview");
 			if (icon.isColored) {
-				preview.style.backgroundImage = icon.dataUrl;
+				preview.setCssStyles({ backgroundImage: icon.dataUrl });
 			} else {
-				preview.style.webkitMaskImage = icon.dataUrl;
-				preview.style.maskImage = icon.dataUrl;
-				preview.style.backgroundColor = "var(--text-normal)";
+				preview.setCssStyles({
+					maskImage: icon.dataUrl,
+					backgroundColor: "var(--text-normal)",
+				});
 			}
 
 			if (selectedId === icon.id) {

@@ -1,6 +1,5 @@
 import type { MarkdownView } from "obsidian";
 import type NoteIconsPlugin from "../main";
-import type { FilePattern, FolderPattern } from "../settings";
 
 // Cache compiled regexes to avoid recompiling on every mutation
 const regexCache = new Map<string, RegExp | null>();

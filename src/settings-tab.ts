@@ -266,7 +266,7 @@ export class NoteIconsSettingTab extends PluginSettingTab {
 
 		if (hasChildren) {
 			const arrow = navLink.createSpan({ cls: "sf-nav-arrow" });
-			arrow.innerHTML = "\u203a";
+			arrow.setText("\u203a");
 		}
 
 		const isActive = isItemOrChildActive(item, this.activeTab);
@@ -347,10 +347,10 @@ export class NoteIconsSettingTab extends PluginSettingTab {
 		});
 
 		const arrow = dropdownBtn.createSpan({ cls: "sf-mobile-nav-arrow" });
-		arrow.innerHTML = "\u25be";
+		arrow.setText("\u25be");
 
 		const menu = nav.createDiv("sf-mobile-nav-menu");
-		menu.style.display = "none";
+		menu.hide();
 
 		const grouped: Record<
 			string,
@@ -384,7 +384,11 @@ export class NoteIconsSettingTab extends PluginSettingTab {
 		let menuOpen = false;
 		dropdownBtn.addEventListener("click", () => {
 			menuOpen = !menuOpen;
-			menu.style.display = menuOpen ? "block" : "none";
+			if (menuOpen) {
+				menu.show();
+			} else {
+				menu.hide();
+			}
 			dropdownBtn.classList.toggle("sf-open", menuOpen);
 		});
 
@@ -392,7 +396,7 @@ export class NoteIconsSettingTab extends PluginSettingTab {
 			const target = event.target as Node;
 			if (!nav.contains(target) && menuOpen) {
 				menuOpen = false;
-				menu.style.display = "none";
+				menu.hide();
 				dropdownBtn.classList.remove("sf-open");
 			}
 		};

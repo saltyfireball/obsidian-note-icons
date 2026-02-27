@@ -90,7 +90,7 @@ export class PatternModal extends Modal {
 			type: "text",
 			placeholder: "e.g., Python files, Chess folders",
 			value: this.patternData.name || "",
-		}) as HTMLInputElement;
+		});
 		nameInput.addEventListener("input", (event: Event) => {
 			const target = event.target as HTMLInputElement | null;
 			if (!target) return;
@@ -98,12 +98,12 @@ export class PatternModal extends Modal {
 		});
 
 		const patternRow = contentEl.createDiv("sf-form-row");
-		patternRow.createEl("label", { text: "Regex Pattern" });
+		patternRow.createEl("label", { text: "Regex pattern" });
 		const patternInput = patternRow.createEl("input", {
 			type: "text",
 			placeholder: "e.g., \\.py$ or /folder name/i",
 			value: this.patternData.pattern,
-		}) as HTMLInputElement;
+		});
 		patternInput.addEventListener("input", (event: Event) => {
 			const target = event.target as HTMLInputElement | null;
 			if (!target) return;
@@ -111,7 +111,7 @@ export class PatternModal extends Modal {
 		});
 
 		patternRow.createEl("p", {
-			text: "Regex pattern tested against the full path. Use /pattern/flags for options: i (case-insensitive), g (global), m (multiline), s (dotall), u (unicode)",
+			text: "Regex pattern tested against the full path. Use /pattern/flags for options: i (case-insensitive), g (global), m (multiline), s (dotall), u (unicode).",
 			cls: "sf-hint",
 		});
 
@@ -146,7 +146,7 @@ export class PatternModal extends Modal {
 			text: "Save",
 			cls: "mod-cta",
 		});
-		saveBtn.addEventListener("click", () => this.save());
+		saveBtn.addEventListener("click", () => { void this.save(); });
 		const cancelBtn = actions.createEl("button", { text: "Cancel" });
 		cancelBtn.addEventListener("click", () => this.close());
 	}

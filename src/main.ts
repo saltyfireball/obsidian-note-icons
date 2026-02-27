@@ -92,8 +92,9 @@ export default class NoteIconsPlugin extends Plugin {
 	}
 
 	async loadSettings() {
+		// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment -- loadData returns any
 		const savedData = await this.loadData();
-		this.settings = deepMerge(DEFAULT_SETTINGS, savedData || {});
+		this.settings = deepMerge(DEFAULT_SETTINGS, (savedData || {}) as Record<string, unknown>);
 	}
 
 	async saveSettings() {
@@ -137,15 +138,15 @@ export default class NoteIconsPlugin extends Plugin {
 
 		const cssClass = this.getCssClassForPath(path);
 
-		await this.app.fileManager.processFrontMatter(file, (frontmatter) => {
+		await this.app.fileManager.processFrontMatter(file, (frontmatter: Record<string, unknown>) => {
 			if (!frontmatter.cssclasses) {
 				frontmatter.cssclasses = [];
 			}
 			if (!Array.isArray(frontmatter.cssclasses)) {
 				frontmatter.cssclasses = [frontmatter.cssclasses];
 			}
-			if (!frontmatter.cssclasses.includes(cssClass)) {
-				frontmatter.cssclasses.push(cssClass);
+			if (!(frontmatter.cssclasses as string[]).includes(cssClass)) {
+				(frontmatter.cssclasses as string[]).push(cssClass);
 			}
 		});
 	}
@@ -156,13 +157,13 @@ export default class NoteIconsPlugin extends Plugin {
 
 		const cssClass = this.getCssClassForPath(path);
 
-		await this.app.fileManager.processFrontMatter(file, (frontmatter) => {
+		await this.app.fileManager.processFrontMatter(file, (frontmatter: Record<string, unknown>) => {
 			if (frontmatter.cssclasses) {
 				if (Array.isArray(frontmatter.cssclasses)) {
-					frontmatter.cssclasses = frontmatter.cssclasses.filter(
+					frontmatter.cssclasses = (frontmatter.cssclasses as string[]).filter(
 						(c: string) => c !== cssClass,
 					);
-					if (frontmatter.cssclasses.length === 0) {
+					if ((frontmatter.cssclasses as string[]).length === 0) {
 						delete frontmatter.cssclasses;
 					}
 				} else if (frontmatter.cssclasses === cssClass) {
