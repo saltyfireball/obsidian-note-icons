@@ -1,3 +1,4 @@
+import { Setting } from "obsidian";
 import type { App } from "obsidian";
 import type NoteIconsPlugin from "../main";
 
@@ -10,7 +11,7 @@ interface SettingsTabContext {
 
 export function renderFilesSpecificTab(context: SettingsTabContext) {
 	const { contentEl, plugin, rerender } = context;
-	contentEl.createEl("h2", { text: "Specific File Styles" });
+	new Setting(contentEl).setName("Specific file styles").setHeading();
 	contentEl.createEl("p", {
 		text: "Styles applied to individual files. Right-click a file in the explorer to set its style.",
 		cls: "sf-hint",
@@ -48,7 +49,7 @@ export function renderFilesSpecificTab(context: SettingsTabContext) {
 
 export function renderFoldersSpecificTab(context: SettingsTabContext) {
 	const { contentEl, plugin, rerender } = context;
-	contentEl.createEl("h2", { text: "Specific Folder Styles" });
+	new Setting(contentEl).setName("Specific folder styles").setHeading();
 	contentEl.createEl("p", {
 		text: "Styles applied to individual folders. Right-click a folder in the explorer to set its style.",
 		cls: "sf-hint",

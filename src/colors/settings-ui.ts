@@ -1,4 +1,4 @@
-import { Notice } from "obsidian";
+import { Notice, Setting } from "obsidian";
 import type NoteIconsPlugin from "../main";
 import { isHexColor } from "../helpers";
 import type { ColorMap } from "../settings";
@@ -18,7 +18,7 @@ export function renderColorsTab({
 	}
 
 	const section = contentEl.createDiv("sf-colors-section");
-	section.createEl("h2", { text: "Color Palette" });
+	new Setting(section).setName("Color palette").setHeading();
 	section.createEl("p", {
 		text: "Define colors that can be used for icons and text throughout the plugin.",
 		cls: "sf-hint",

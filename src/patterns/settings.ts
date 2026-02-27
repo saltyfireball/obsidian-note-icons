@@ -1,3 +1,4 @@
+import { Setting } from "obsidian";
 import type { App as ObsidianApp } from "obsidian";
 import type NoteIconsPlugin from "../main";
 import type {
@@ -131,7 +132,7 @@ async function reorderPatterns(
 
 export function renderFilesPatternsTab(context: SettingsTabContext): void {
 	const { contentEl, app, plugin } = context;
-	contentEl.createEl("h2", { text: "File Patterns (Regex)" });
+	new Setting(contentEl).setName("File patterns (regex)").setHeading();
 	contentEl.createEl("p", {
 		text: "Use regex patterns to style multiple files at once. Drag to reorder - first matching pattern wins.",
 		cls: "sf-hint",
@@ -194,7 +195,7 @@ export function renderFilesPatternsTab(context: SettingsTabContext): void {
 
 export function renderFoldersPatternsTab(context: SettingsTabContext): void {
 	const { contentEl, app, plugin } = context;
-	contentEl.createEl("h2", { text: "Folder Patterns (Regex)" });
+	new Setting(contentEl).setName("Folder patterns (regex)").setHeading();
 	contentEl.createEl("p", {
 		text: "Use regex patterns to style multiple folders at once. Drag to reorder - first matching pattern wins.",
 		cls: "sf-hint",
