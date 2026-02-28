@@ -20,7 +20,7 @@ import {
 	applyPatternClasses,
 } from "./patterns/register";
 import { registerIcons } from "./icons/register";
-import type { IconDefinition } from "./settings";
+import type { IconDefinition, NoteIconsSettings } from "./settings";
 
 declare global {
 	interface Window {
@@ -92,9 +92,8 @@ export default class NoteIconsPlugin extends Plugin {
 	}
 
 	async loadSettings() {
-		// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment -- loadData returns any
-		const savedData = await this.loadData();
-		this.settings = deepMerge(DEFAULT_SETTINGS, (savedData || {}) as Record<string, unknown>);
+		const savedData = (await this.loadData()) as Partial<NoteIconsSettings> | null;
+		this.settings = deepMerge(DEFAULT_SETTINGS, (savedData ?? {}) as Record<string, unknown>);
 	}
 
 	async saveSettings() {
