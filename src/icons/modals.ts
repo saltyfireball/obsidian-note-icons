@@ -1,4 +1,4 @@
-import { Modal } from "obsidian";
+import { Modal, Setting } from "obsidian";
 import type { App } from "obsidian";
 import type NoteIconsPlugin from "../main";
 import type {
@@ -61,10 +61,11 @@ export class IconPickerModal extends Modal {
 
 		const clearBtn = actions.createEl("button", { text: "Clear style" });
 		clearBtn.addEventListener("click", () => {
-			// eslint-disable-next-line no-alert -- confirm dialog is appropriate for destructive clear action
-			if (confirm("Clear all icon and color settings for this item?")) {
-				void this.clear();
-			}
+			new ConfirmModal(
+				this.app,
+				"Clear all icon and color settings for this item?",
+				() => { void this.clear(); },
+			).open();
 		});
 
 		const cancelBtn = actions.createEl("button", { text: "Cancel" });
@@ -170,4 +171,18 @@ export class IconPickerModal extends Modal {
 		const { contentEl } = this;
 		contentEl.empty();
 	}
+}
+
+class ConfirmModal extends Modal {
+	private resolved = false;
+	constructor(app: App, private message: string, private onConfirm: () => void) {
+		super(app);
+	}
+	onOpen() {
+		this.contentEl.createEl("p", { text: this.message });
+		new Setting(this.contentEl)
+			.addButton(b => b.setButtonText("Confirm").setCta().onClick(() => { this.resolved = true; this.close(); this.onConfirm(); }))
+			.addButton(b => b.setButtonText("Cancel").onClick(() => this.close()));
+	}
+	onClose() { this.contentEl.empty(); }
 }

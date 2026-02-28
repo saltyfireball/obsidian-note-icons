@@ -14,7 +14,7 @@ import {
 	escapeAttributeValue,
 	deepMerge,
 } from "./helpers";
-import { createManagedStyleEl } from "./style-manager";
+import { createManagedStyleSheet } from "./style-manager";
 import {
 	registerPatterns,
 	applyPatternClasses,
@@ -32,7 +32,7 @@ declare global {
 }
 
 export default class NoteIconsPlugin extends Plugin {
-	styleEl?: HTMLStyleElement;
+	styleSheet?: CSSStyleSheet;
 	settingsTab?: NoteIconsSettingTab;
 	settings!: NoteIconsSettings;
 	private _cssGenerator: CSSGenerator | null = null;
@@ -42,7 +42,7 @@ export default class NoteIconsPlugin extends Plugin {
 		await this.loadSettings();
 
 		// Inject CSS for icons/styles
-		this.styleEl = createManagedStyleEl("note-icons-styles");
+		this.styleSheet = createManagedStyleSheet();
 		this.updateCSS();
 
 		// Setup pattern matching observer for file explorer
@@ -71,8 +71,8 @@ export default class NoteIconsPlugin extends Plugin {
 			this._iconManagerUnsubscribe();
 			this._iconManagerUnsubscribe = null;
 		}
-		if (this.styleEl) {
-			this.styleEl.remove();
+		if (this.styleSheet) {
+			document.adoptedStyleSheets = document.adoptedStyleSheets.filter(s => s !== this.styleSheet);
 		}
 	}
 
@@ -121,8 +121,8 @@ export default class NoteIconsPlugin extends Plugin {
 
 	updateCSS() {
 		const css = this.getCssGenerator().generate();
-		if (this.styleEl) {
-			this.styleEl.textContent = css;
+		if (this.styleSheet) {
+			this.styleSheet.replaceSync(css);
 		}
 	}
 
