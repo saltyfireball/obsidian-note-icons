@@ -5,8 +5,8 @@ import {
 } from "obsidian";
 import {
 	DEFAULT_SETTINGS,
-	NoteIconsSettings,
 } from "./settings";
+import type { IconDefinition, NoteIconsSettings } from "./settings";
 import { NoteIconsSettingTab } from "./settings-tab";
 import { CSSGenerator } from "./css-generator";
 import {
@@ -20,7 +20,6 @@ import {
 	applyPatternClasses,
 } from "./patterns/register";
 import { registerIcons } from "./icons/register";
-import type { IconDefinition, NoteIconsSettings } from "./settings";
 
 declare global {
 	interface Window {

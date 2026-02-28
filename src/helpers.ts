@@ -46,8 +46,8 @@ export function deepMerge<T extends Record<string, unknown>>(
 			!Array.isArray(defaultVal)
 		) {
 			(result as Record<string, unknown>)[key] = deepMerge(
-				defaultVal,
-				overrideVal,
+				defaultVal as Record<string, unknown>,
+				overrideVal as Record<string, unknown>,
 			);
 		} else {
 			(result as Record<string, unknown>)[key] = overrideVal;

@@ -1,4 +1,4 @@
-import type { NoteIconsSettings } from "./settings";
+import type { NoteIconsSettings, IconDefinition, FileStyleDefinition, FolderStyleDefinition, FilePattern, FolderPattern } from "./settings";
 import { sanitizeCssValue } from "./helpers";
 
 export interface CSSGeneratorHelpers {
@@ -6,28 +6,15 @@ export interface CSSGeneratorHelpers {
 	escapeAttributeValue: (value?: string) => string;
 }
 
-type CSSStyle = Record<string, unknown>;
-type CSSPattern = Record<string, unknown>;
-type CSSGeneratorSettings = Omit<
-	NoteIconsSettings,
-	"icons" | "filePatterns" | "folderPatterns" | "fileStyles" | "folderStyles"
-> & {
-	icons: Array<Record<string, unknown>>;
-	filePatterns: CSSPattern[];
-	folderPatterns: CSSPattern[];
-	fileStyles: Record<string, CSSStyle>;
-	folderStyles: Record<string, CSSStyle>;
-};
-
 export class CSSGenerator {
 	constructor(
-		public settings: CSSGeneratorSettings,
+		public settings: NoteIconsSettings,
 		private helpers: CSSGeneratorHelpers,
 	) {}
 
-	private getIcons(): Array<Record<string, unknown>> {
+	private getIcons(): IconDefinition[] {
 		if (typeof window !== "undefined" && window.SFIconManager) {
-			return window.SFIconManager.getIcons() as Array<Record<string, unknown>>;
+			return window.SFIconManager.getIcons();
 		}
 		return this.settings.icons;
 	}
@@ -68,7 +55,7 @@ export class CSSGenerator {
 		if (typeof window === "undefined" || !window.SFIconManager) {
 			lines.push(":root {");
 			for (const icon of this.settings.icons) {
-				lines.push(`  --sf-icon-${String(icon.id)}: ${String(icon.dataUrl)};`);
+				lines.push(`  --sf-icon-${icon.id}: ${icon.dataUrl};`);
 			}
 			lines.push("}");
 			lines.push("");
@@ -113,10 +100,10 @@ export class CSSGenerator {
 		return lines.join("\n");
 	}
 
-	generateFileCSS(path: string, style: CSSStyle): string {
+	generateFileCSS(path: string, style: FileStyleDefinition): string {
 		const lines = [];
 		const escapedPath = path.replace(/\\/g, "\\\\").replace(/"/g, '\\"');
-		const iconId = (style.icon as string) || "";
+		const iconId = style.icon || "";
 		const icon = this.getIcons().find((i) => i.id === style.icon);
 
 		if (style.icon && icon) {
@@ -250,11 +237,11 @@ div.nav-file-title[data-path="${escapedPath}"] .nav-file-title-content {
 		return lines.join("\n");
 	}
 
-	generateFolderCSS(path: string, style: CSSStyle): string {
+	generateFolderCSS(path: string, style: FolderStyleDefinition): string {
 		const lines = [];
 		const escapedPath = path.replace(/\\/g, "\\\\").replace(/"/g, '\\"');
-		const iconClosedId = (style.iconClosed as string) || "";
-		const iconOpenId = (style.iconOpen as string) || "";
+		const iconClosedId = style.iconClosed || "";
+		const iconOpenId = style.iconOpen || "";
 		const iconClosed = this.getIcons().find(
 			(i) => i.id === style.iconClosed,
 		);
@@ -351,10 +338,10 @@ div.nav-folder-title[data-path="${escapedPath}"] .nav-folder-title-content {
 		return lines.join("\n");
 	}
 
-	generateFilePatternCSS(index: number, pattern: CSSPattern): string {
+	generateFilePatternCSS(index: number, pattern: FilePattern): string {
 		const lines = [];
 		const className = `sf-pattern-file-${index}`;
-		const patternIconId = (pattern.icon as string) || "";
+		const patternIconId = pattern.icon || "";
 		const icon = this.getIcons().find((i) => i.id === pattern.icon);
 
 		if (pattern.icon && icon) {
@@ -362,7 +349,7 @@ div.nav-folder-title[data-path="${escapedPath}"] .nav-folder-title-content {
 
 			if (icon.isColored) {
 				lines.push(`
-/* File Pattern: ${String(pattern.pattern)} */
+/* File Pattern: ${pattern.pattern} */
 .${className} .nav-file-title-content::before {
   content: "";
   display: inline-flex;
@@ -390,7 +377,7 @@ div.nav-folder-title[data-path="${escapedPath}"] .nav-folder-title-content {
 				const color =
 					sanitizeCssValue(pattern.iconColor) || "var(--text-normal)";
 				lines.push(`
-/* File Pattern: ${String(pattern.pattern)} */
+/* File Pattern: ${pattern.pattern} */
 .${className} .nav-file-title-content::before {
   content: "";
   display: inline-flex;
@@ -484,11 +471,11 @@ div.nav-folder-title[data-path="${escapedPath}"] .nav-folder-title-content {
 		return lines.join("\n");
 	}
 
-	generateFolderPatternCSS(index: number, pattern: CSSPattern): string {
+	generateFolderPatternCSS(index: number, pattern: FolderPattern): string {
 		const lines = [];
 		const className = `sf-pattern-folder-${index}`;
-		const patternIconClosedId = (pattern.iconClosed as string) || "";
-		const patternIconOpenId = (pattern.iconOpen as string) || "";
+		const patternIconClosedId = pattern.iconClosed || "";
+		const patternIconOpenId = pattern.iconOpen || "";
 		const iconClosed = this.getIcons().find(
 			(i) => i.id === pattern.iconClosed,
 		);
@@ -508,7 +495,7 @@ div.nav-folder-title[data-path="${escapedPath}"] .nav-folder-title-content {
 
 			if (iconClosed.isColored) {
 				lines.push(`
-/* Folder Pattern closed: ${String(pattern.pattern)} */
+/* Folder Pattern closed: ${pattern.pattern} */
 .nav-folder.${className}.is-collapsed > .nav-folder-title .nav-folder-title-content::before {
   content: "" !important;
   display: inline-flex !important;
@@ -530,7 +517,7 @@ div.nav-folder-title[data-path="${escapedPath}"] .nav-folder-title-content {
 `);
 			} else {
 				lines.push(`
-/* Folder Pattern closed: ${String(pattern.pattern)} */
+/* Folder Pattern closed: ${pattern.pattern} */
 .nav-folder.${className}.is-collapsed > .nav-folder-title .nav-folder-title-content::before {
   content: "" !important;
   display: inline-flex !important;
@@ -568,7 +555,7 @@ div.nav-folder-title[data-path="${escapedPath}"] .nav-folder-title-content {
 
 			if (iconOpen.isColored) {
 				lines.push(`
-/* Folder Pattern open: ${String(pattern.pattern)} */
+/* Folder Pattern open: ${pattern.pattern} */
 .nav-folder.${className}:not(.is-collapsed) > .nav-folder-title .nav-folder-title-content::before {
   content: "" !important;
   display: inline-flex !important;
@@ -590,7 +577,7 @@ div.nav-folder-title[data-path="${escapedPath}"] .nav-folder-title-content {
 `);
 			} else {
 				lines.push(`
-/* Folder Pattern open: ${String(pattern.pattern)} */
+/* Folder Pattern open: ${pattern.pattern} */
 .nav-folder.${className}:not(.is-collapsed) > .nav-folder-title .nav-folder-title-content::before {
   content: "" !important;
   display: inline-flex !important;
