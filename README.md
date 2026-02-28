@@ -2,6 +2,10 @@
 
 ![USB Stick](https://img.shields.io/badge/usb%20stick-contains%20mystery%20files-fff?style=flat&logo=usb&logoColor=FFFFFF&label=usb%20stick&labelColor=5B595C&color=78DCE8) ![Burnout](https://img.shields.io/badge/burnout-speedrunning-fff?style=flat&logo=speedtest&logoColor=FFFFFF&label=burnout&labelColor=5B595C&color=FF6188) ![Tests](https://img.shields.io/badge/tests-we%20dont%20do%20that%20here-fff?style=flat&logo=jest&logoColor=FFFFFF&label=tests&labelColor=5B595C&color=78DCE8) ![Git Message](https://img.shields.io/badge/git%20message-asdfasdf-fff?style=flat&logo=git&logoColor=FFFFFF&label=git%20message&labelColor=5B595C&color=5C7CFA) ![Pet Rock](https://img.shields.io/badge/pet%20rock-fed-fff?style=flat&logo=githubsponsors&logoColor=FFFFFF&label=pet%20rock&labelColor=5B595C&color=AB9DF2) ![CD](https://img.shields.io/badge/cd-AOL%20free%20trial-fff?style=flat&logo=discogs&logoColor=FFFFFF&label=CD&labelColor=5B595C&color=FC9867) ![Coffee](https://img.shields.io/badge/coffee-IV%20drip-fff?style=flat&logo=buymeacoffee&logoColor=FFFFFF&label=coffee&labelColor=5B595C&color=5C7CFA) ![Fridge](https://img.shields.io/badge/fridge-runs%20linux-fff?style=flat&logo=linux&logoColor=FFFFFF&label=fridge&labelColor=5B595C&color=A9DC76) ![Logging](https://img.shields.io/badge/logging-console.log%20go%20brrr-fff?style=flat&logo=papertrail&logoColor=FFFFFF&label=logging&labelColor=5B595C&color=FFD866)
 
+<p align="center">
+  <img src="assets/header.svg" width="600" />
+</p>
+
 An Obsidian plugin for assigning custom icons, colors, and styles to files and folders in the file explorer and inline titles.
 
 ## Features
